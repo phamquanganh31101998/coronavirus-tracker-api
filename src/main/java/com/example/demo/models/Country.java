@@ -1,9 +1,7 @@
 package com.example.demo.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Country {
@@ -11,6 +9,10 @@ public class Country {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	private String name;
+
+	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+	private Collection<Province> provinces;
+
 	public Integer getId() {
 		return id;
 	}
