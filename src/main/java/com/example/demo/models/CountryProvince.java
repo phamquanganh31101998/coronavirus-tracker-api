@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CountryProvince {
     private int id;
-    private int name;
+    private String name;
     private List<Province> provinceList;
 
     public int getId() {
@@ -15,11 +15,11 @@ public class CountryProvince {
         this.id = id;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -28,6 +28,21 @@ public class CountryProvince {
     }
 
     public void setProvinceList(List<Province> provinceList) {
+        this.provinceList = provinceList;
+    }
+
+    public CountryProvince(int id) {
+        this.id = id;
+    }
+
+    public CountryProvince(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public CountryProvince(int id, String name, List<Province> provinceList) {
+        this.id = id;
+        this.name = name;
         this.provinceList = provinceList;
     }
 }

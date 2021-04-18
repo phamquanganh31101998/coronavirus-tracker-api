@@ -42,6 +42,11 @@ public class Province {
         this.id = id;
     }
 
+    public Province(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Province(Integer id, String name, Country country) {
         this.id = id;
         this.name = name;
