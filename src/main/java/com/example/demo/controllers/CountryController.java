@@ -16,7 +16,6 @@ import com.example.demo.repositories.CountryRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class CountryController {
@@ -41,7 +40,6 @@ public class CountryController {
 	public List<CountryProvince> getAllCountryWithProvince() {
 		List<CountryProvince> listCountryWithProvince = new ArrayList<CountryProvince>();
 		String sql = "SELECT c.id id, c.name name, p.id province_id, p.name province_name FROM country as c LEFT JOIN province as p ON p.country = c.id";
-//		AtomicInteger previous_row_id = new AtomicInteger();
 		jdbcTemplate.query(sql, (RowMapper<Void>) (rs, rowNum) -> {
 			int id = rs.getInt("id");
 			String name = rs.getString("name");
