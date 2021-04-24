@@ -11,6 +11,11 @@ public class Country {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     private String name;
+
+    public Country() {
+
+    }
+
     public Integer getId() {
         return id;
     }
@@ -21,6 +26,11 @@ public class Country {
         return name;
     }
     public void setName(String name) {
+        this.name = name;
+    }
+
+    public Country(Integer id, String name) {
+        this.id = id;
         this.name = name;
     }
 }

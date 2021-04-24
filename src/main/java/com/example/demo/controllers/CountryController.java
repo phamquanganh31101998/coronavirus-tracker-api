@@ -1,27 +1,31 @@
 package com.example.demo.controllers;
 
+import com.example.demo.dtos.CountryDto;
+import com.example.demo.services.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.repositories.CountryRepository;
+
+import java.util.List;
 
 @RestController
 public class CountryController {
 
 	@Autowired
-	NamedParameterJdbcTemplate jdbcTemplate;
+	CountryService countryService;
 	
 //	@GetMapping("/countries")
 //	public @ResponseBody Iterable<CountryModel> getAllCountries() {
 //		return countryRepository.findAll();
 //	}
 
-//	@GetMapping("/country")
-//	public List<CountryModel> getAllCountry () {
-//		String sql = "SELECT * FROM country";
-//		return jdbcTemplate.query(sql, new HashMap<>(), new BeanPropertyRowMapper<CountryModel>(CountryModel.class));
-//	}
+	@GetMapping("/country")
+	public List<CountryDto> getAllCountry () {
+		return countryService.getAll();
+	}
 
 //	@GetMapping("country/province")
 //	public List<CountryProvince> getAllCountryWithProvince() {
