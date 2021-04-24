@@ -1,6 +1,7 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entities.Province;
+import com.example.demo.exceptions.ProvinceNotFoundException;
 import com.example.demo.models.ProvinceModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -24,13 +25,17 @@ public class ProvinceRepository {
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public ProvinceModel getProvinceByName (String name) {
-        String sql = "SELECT * FROM province WHERE name = :name";
-        Map<String, Object> maps = new HashMap<String, Object>();
-        maps.put("name", name);
-        Province province = namedParameterJdbcTemplate.queryForObject(sql, maps, new BeanPropertyRowMapper<Province>(Province.class));
-        assert province != null;
-        return new ProvinceModel(province, name);
+    public ProvinceModel getProvinceByName(String name) throws SQLException{
+        try {
+            String sql = "SELECT * FROM province WHERE name = :name";
+            Map<String, Object> maps = new HashMap<String, Object>();
+            maps.put("name", name);
+            Province province = namedParameterJdbcTemplate.queryForObject(sql, maps, new BeanPropertyRowMapper<Province>(Province.class));
+            return new ProvinceModel(province, name);
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     public List<ProvinceModel> getAll() {

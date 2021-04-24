@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class ProvinceController {
 
     @GetMapping("/province/{name}")
     @ResponseBody
-    public ProvinceModel getProvinceByName(@PathVariable String name) {
+    public ProvinceModel getProvinceByName(@PathVariable String name) throws SQLException {
         return provinceService.getProvinceByName(name);
     }
 
