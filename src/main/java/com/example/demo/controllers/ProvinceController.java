@@ -1,23 +1,29 @@
 package com.example.demo.controllers;
 
-import com.example.demo.repositories.ProvinceRepository;
+import com.example.demo.models.ProvinceModel;
+import com.example.demo.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
 public class ProvinceController {
-
     @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
-//    @GetMapping("/province")
-//    public List<ProvinceCountry> getAllProvince() {
-//        String sql = "SELECT p.id id, p.name name, c.name countryName FROM province as p LEFT JOIN country as c ON p.country = c.id";
-//        return jdbcTemplate.query(sql, new HashMap<>(), new BeanPropertyRowMapper<ProvinceCountry>(ProvinceCountry.class));
-//    }
+    ProvinceService provinceService;
+
+    @GetMapping("/province")
+    public List<ProvinceModel> getAll() {
+        return provinceService.getAll();
+    }
+
+    @GetMapping("/province/{name}")
+    @ResponseBody
+    public ProvinceModel getProvinceByName(@PathVariable String name) {
+        return provinceService.getProvinceByName(name);
+    }
+
 }

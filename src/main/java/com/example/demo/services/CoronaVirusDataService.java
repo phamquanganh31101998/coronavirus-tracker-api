@@ -20,37 +20,37 @@ import com.example.demo.models.LocationStats;
 
 @Service
 public class CoronaVirusDataService {
-	private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
-	private List<LocationStats> allStats = new ArrayList<>();
-	
-	public List<LocationStats> getAllStats() {
-		return allStats;
-	}
-
-	public void setAllStats(List<LocationStats> allStats) {
-		this.allStats = allStats;
-	}
-
-	@PostConstruct
-	@Scheduled(cron = "* * 1 * * *")
-	public void getVirusData() throws IOException, InterruptedException {
-		System.out.println("Getting COVID-19...");
-		List<LocationStats> newStats = new ArrayList<>();
-		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(VIRUS_DATA_URL)).build();
-		HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-		StringReader csvBodyReader = new StringReader(httpResponse.body());
-		Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
-		for (CSVRecord record : records) {
-			LocationStats locationStat = new LocationStats();
-			locationStat.setState(record.get("Province/State"));
-			locationStat.setCountry(record.get("Country/Region"));
-			int todayCases = Integer.parseInt(record.get(record.size() - 1));
-//			int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
-			locationStat.setLatestTotalCases(todayCases);
-//			locationStat.setDiffFromPrevDay(todayCases - prevDayCases);
-		    newStats.add(locationStat);
-		}
-		this.allStats = newStats;
-	}
+//	private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
+//	private List<LocationStats> allStats = new ArrayList<>();
+//
+//	public List<LocationStats> getAllStats() {
+//		return allStats;
+//	}
+//
+//	public void setAllStats(List<LocationStats> allStats) {
+//		this.allStats = allStats;
+//	}
+//
+//	@PostConstruct
+//	@Scheduled(cron = "* * 1 * * *")
+//	public void getVirusData() throws IOException, InterruptedException {
+//		System.out.println("Getting COVID-19...");
+//		List<LocationStats> newStats = new ArrayList<>();
+//		HttpClient client = HttpClient.newHttpClient();
+//		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(VIRUS_DATA_URL)).build();
+//		HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+//		StringReader csvBodyReader = new StringReader(httpResponse.body());
+//		Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
+//		for (CSVRecord record : records) {
+//			LocationStats locationStat = new LocationStats();
+//			locationStat.setState(record.get("ProvinceModel/State"));
+//			locationStat.setCountry(record.get("CountryModel/Region"));
+//			int todayCases = Integer.parseInt(record.get(record.size() - 1));
+////			int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
+//			locationStat.setLatestTotalCases(todayCases);
+////			locationStat.setDiffFromPrevDay(todayCases - prevDayCases);
+//		    newStats.add(locationStat);
+//		}
+//		this.allStats = newStats;
+//	}
 }

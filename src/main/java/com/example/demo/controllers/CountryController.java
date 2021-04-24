@@ -1,39 +1,26 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.CountryProvince;
-import com.example.demo.models.Province;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.models.Country;
 import com.example.demo.repositories.CountryRepository;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @RestController
 public class CountryController {
-	@Autowired
-	private CountryRepository countryRepository;
 
 	@Autowired
 	NamedParameterJdbcTemplate jdbcTemplate;
 	
 //	@GetMapping("/countries")
-//	public @ResponseBody Iterable<Country> getAllCountries() {
+//	public @ResponseBody Iterable<CountryModel> getAllCountries() {
 //		return countryRepository.findAll();
 //	}
 
 //	@GetMapping("/country")
-//	public List<Country> getAllCountry () {
+//	public List<CountryModel> getAllCountry () {
 //		String sql = "SELECT * FROM country";
-//		return jdbcTemplate.query(sql, new HashMap<>(), new BeanPropertyRowMapper<Country>(Country.class));
+//		return jdbcTemplate.query(sql, new HashMap<>(), new BeanPropertyRowMapper<CountryModel>(CountryModel.class));
 //	}
 
 //	@GetMapping("country/province")
@@ -43,11 +30,11 @@ public class CountryController {
 //		jdbcTemplate.query(sql, (RowMapper<Void>) (rs, rowNum) -> {
 //			int id = rs.getInt("id");
 //			String name = rs.getString("name");
-//			List<Province> listProvince = new ArrayList<>();
+//			List<ProvinceModel> listProvince = new ArrayList<>();
 //
 //			// add one province to the list
 //			if (rs.getInt("province_id") != 0) {
-//				Province province = new Province(rs.getInt("province_id"), rs.getString("province_name"));
+//				ProvinceModel province = new ProvinceModel(rs.getInt("province_id"), rs.getString("province_name"));
 //				listProvince.add(province);
 //			}
 //			CountryProvince country = new CountryProvince(id, name, listProvince);
@@ -67,8 +54,8 @@ public class CountryController {
 //					result.add(current_row);
 //				}
 //				else {
-//					List<Province> last_result_province_list = last_result.getProvinceList();
-//					Province current_row_province = current_row.getProvinceList().get(0);
+//					List<ProvinceModel> last_result_province_list = last_result.getProvinceList();
+//					ProvinceModel current_row_province = current_row.getProvinceList().get(0);
 //					last_result_province_list.add(current_row_province);
 //					last_result.setProvinceList(last_result_province_list);
 //				}
