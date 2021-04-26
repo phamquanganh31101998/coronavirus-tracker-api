@@ -1,7 +1,6 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entities.Province;
-import com.example.demo.exceptions.ProvinceNotFoundException;
 import com.example.demo.models.ProvinceModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -27,10 +26,10 @@ public class ProvinceRepository {
 
     public ProvinceModel getProvinceByName(String name) throws SQLException{
         try {
-            String sql = "SELECT * FROM province WHERE name = :name";
+            String sql = "SELECT p.id id, p.name name, c.name countryName FROM province as p, country as c WHERE c.id = p.country AND p.name = :name";
             Map<String, Object> maps = new HashMap<String, Object>();
             maps.put("name", name);
-            Province province = namedParameterJdbcTemplate.queryForObject(sql, maps, new BeanPropertyRowMapper<Province>(Province.class));
+            Province province = namedParameterJdbcTemplate.queryForObject(sql, maps, (rs, rowNum) -> null);
             return new ProvinceModel(province, name);
         }
         catch (Exception e) {

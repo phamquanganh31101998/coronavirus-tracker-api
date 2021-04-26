@@ -37,6 +37,10 @@ public class Province {
         this.id = id;
     }
 
+    public Province() {
+
+    }
+
     public Province(Integer id, String name, Integer country) {
         this.id = id;
         this.name = name;
