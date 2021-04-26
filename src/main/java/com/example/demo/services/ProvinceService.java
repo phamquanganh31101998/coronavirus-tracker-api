@@ -13,8 +13,12 @@ public class ProvinceService {
     @Autowired
     ProvinceRepository provinceRepository;
 
-    public ProvinceModel getProvinceByName(String name) throws SQLException {
+    public List<ProvinceModel> getProvinceByName(String name) throws SQLException {
         return provinceRepository.getProvinceByName(name);
+    }
+
+    public ProvinceModel getProvinceById(int id) throws SQLException {
+        return provinceRepository.getProvinceById(id);
     }
 
     public List<ProvinceModel> getAll() {

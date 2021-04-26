@@ -24,13 +24,15 @@ public class ProvinceRepository {
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public ProvinceModel getProvinceByName(String name) throws SQLException{
+    public List<ProvinceModel> getProvinceByName(String name) throws SQLException{
         try {
-            String sql = "SELECT p.id id, p.name name, c.name countryName FROM province as p, country as c WHERE c.id = p.country AND p.name = :name";
-            Map<String, Object> maps = new HashMap<String, Object>();
+            String sql = "SELECT p.id id, p.name name, c.name countryName, c.id countryId FROM province as p, country as c WHERE c.id = p.country AND p.name LIKE CONCAT( '%',:name,'%')";
+            Map<String, Object> maps = new HashMap<>();
             maps.put("name", name);
-            Province province = namedParameterJdbcTemplate.queryForObject(sql, maps, (rs, rowNum) -> null);
-            return new ProvinceModel(province, name);
+            return namedParameterJdbcTemplate.query(sql, maps, (rs, rowNum) -> {
+                Province province = new Province(rs.getInt("id"), rs.getString("name"), rs.getInt("countryId"));
+                return new ProvinceModel(province, rs.getString("countryName"));
+            });
         }
         catch (Exception e) {
             return null;
@@ -43,5 +45,20 @@ public class ProvinceRepository {
             Province province = new Province(rs.getInt("id"), rs.getString("name"), rs.getInt("cid"));
             return new ProvinceModel(province, rs.getString("cname"));
         });
+    }
+
+    public ProvinceModel getProvinceById(int id) throws SQLException{
+        try {
+            String sql = "SELECT p.id id, p.name name, c.name countryName, c.id countryId FROM province as p, country as c WHERE c.id = p.country AND p.id = :id";
+            Map<String, Object> maps = new HashMap<>();
+            maps.put("id", id);
+            return namedParameterJdbcTemplate.queryForObject(sql, maps, (rs, rowNum) -> {
+                Province province = new Province(rs.getInt("id"), rs.getString("name"), rs.getInt("countryId"));
+                return new ProvinceModel(province, rs.getString("countryName"));
+            });
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 }

@@ -3,10 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.models.ProvinceModel;
 import com.example.demo.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,15 +13,20 @@ public class ProvinceController {
     @Autowired
     ProvinceService provinceService;
 
-    @GetMapping("/province")
+    @GetMapping("/provinces")
     public List<ProvinceModel> getAll() {
         return provinceService.getAll();
     }
 
-    @GetMapping("/province/{name}")
+    @GetMapping("/province")
     @ResponseBody
-    public ProvinceModel getProvinceByName(@PathVariable String name) throws SQLException {
+    public List<ProvinceModel> getProvinceByName(@RequestParam(name = "name") String name) throws SQLException {
         return provinceService.getProvinceByName(name);
     }
 
+    @GetMapping("/province/{id}")
+    @ResponseBody
+    public ProvinceModel getProvinceById(@PathVariable int id) throws SQLException {
+        return provinceService.getProvinceById(id);
+    }
 }
