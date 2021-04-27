@@ -1,8 +1,11 @@
 package com.example.demo.controllers;
 
+import com.example.demo.contracts.ResponseContract;
 import com.example.demo.models.ProvinceModel;
 import com.example.demo.services.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -14,8 +17,8 @@ public class ProvinceController {
     ProvinceService provinceService;
 
     @GetMapping("/provinces")
-    public List<ProvinceModel> getAll() {
-        return provinceService.getAll();
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok().body(provinceService.getAll());
     }
 
     @GetMapping("/province")
@@ -26,7 +29,7 @@ public class ProvinceController {
 
     @GetMapping("/province/{id}")
     @ResponseBody
-    public ProvinceModel getProvinceById(@PathVariable int id) throws SQLException {
-        return provinceService.getProvinceById(id);
+    public ResponseContract<?> getProvinceById(@PathVariable int id) throws SQLException {
+        return new ResponseContract<ProvinceModel>(HttpStatus.OK.toString(), "success", provinceService.getProvinceById(id)) ;
     }
 }
