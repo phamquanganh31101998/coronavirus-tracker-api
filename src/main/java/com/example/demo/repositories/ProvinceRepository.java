@@ -24,7 +24,7 @@ public class ProvinceRepository {
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<ProvinceModel> getProvinceByName(String name) throws SQLException{
+    public List<ProvinceModel> getProvinceByName(String name) {
         try {
             String sql = "SELECT p.id id, p.name name, c.name countryName, c.id countryId FROM province as p, country as c WHERE c.id = p.country AND p.name LIKE CONCAT( '%',:name,'%')";
             Map<String, Object> maps = new HashMap<>();
@@ -47,7 +47,7 @@ public class ProvinceRepository {
         });
     }
 
-    public ProvinceModel getProvinceById(int id) throws SQLException{
+    public ProvinceModel getProvinceById(int id) {
         try {
             String sql = "SELECT p.id id, p.name name, c.name countryName, c.id countryId FROM province as p, country as c WHERE c.id = p.country AND p.id = :id";
             Map<String, Object> maps = new HashMap<>();
