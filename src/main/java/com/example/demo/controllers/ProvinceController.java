@@ -18,20 +18,21 @@ public class ProvinceController {
 
     @GetMapping("/province")
     @ResponseBody
-    public ResponseContract<?> getProvinceByName(@RequestParam(name = "name", required = false) String name) throws SQLException {
+    public ResponseContract<?> getProvince(@RequestParam(name = "name", required = false) String name) {
         if (name == null) {
             return provinceService.getAll();
         }
         return provinceService.getProvinceByName(name);
     }
 
-    @GetMapping("/province/{id}")
+    @GetMapping("/province/{idString}")
     @ResponseBody
-    public ResponseContract<?> getProvinceById(@PathVariable int id) throws SQLException {
+    public ResponseContract<?> getProvinceById(@PathVariable String idString) {
         try {
+            int id = Integer.parseInt(idString);
             return provinceService.getProvinceById(id);
-        }
-        catch (Exception e) {
+        } catch (Exception e)
+        {
             return new ResponseContract<>("failed", HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), null);
         }
     }
