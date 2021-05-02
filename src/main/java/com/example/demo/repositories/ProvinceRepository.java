@@ -3,15 +3,10 @@ package com.example.demo.repositories;
 import com.example.demo.entities.Province;
 import com.example.demo.models.ProvinceModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +19,18 @@ public class ProvinceRepository {
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<ProvinceModel> getProvinceByName(String name) {
+    public List<ProvinceModel> getProvinceByConditions(String name, String countryName) {
         try {
-            String sql = "SELECT p.id id, p.name name, c.name countryName, c.id countryId FROM province as p, country as c WHERE c.id = p.country AND p.name LIKE CONCAT( '%',:name,'%')";
+            String sql = "SELECT p.id id, p.name name, c.name countryName, c.id countryId FROM province as p, country as c WHERE c.id = p.country";
             Map<String, Object> maps = new HashMap<>();
-            maps.put("name", name);
+            if (name != null) {
+                sql = sql + " AND p.name LIKE CONCAT('%', :name, '%')";
+                maps.put("name", name);
+            }
+            if (countryName != null) {
+                sql = sql + " AND c.name LIKE CONCAT('%', :countryName, '%')";
+                maps.put("countryName", countryName);
+            }
             return namedParameterJdbcTemplate.query(sql, maps, (rs, rowNum) -> {
                 Province province = new Province(rs.getInt("id"), rs.getString("name"), rs.getInt("countryId"));
                 return new ProvinceModel(province, rs.getString("countryName"));

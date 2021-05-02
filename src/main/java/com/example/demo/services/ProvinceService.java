@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -15,9 +14,9 @@ public class ProvinceService {
     @Autowired
     ProvinceRepository provinceRepository;
 
-    public ResponseContract<?> getProvinceByName(String name) {
+    public ResponseContract<?> getProvinceByConditions(String name, String countryName) {
         try {
-            List<ProvinceModel> body = provinceRepository.getProvinceByName(name);
+            List<ProvinceModel> body = provinceRepository.getProvinceByConditions(name, countryName);
             if (body.size() == 0) {
                 return new ResponseContract<>("failed", HttpStatus.NOT_FOUND.value(), "Cannot find any province", null);
             }
